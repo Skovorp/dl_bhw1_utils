@@ -148,11 +148,14 @@ def train_epoch_mixup(model, optimizer, train_loader, alpha, aug_possibility, la
     return loss_sum / len(train_loader.dataset), acc_sum / len(train_loader.dataset)
 
 
-def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha, augmentation_type, aug_possibility, label_smoothing, pass_acc=False):
-    train_loss_log, train_acc_log, val_loss_log, val_acc_log = [], [], [], []
+def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha, augmentation_type, aug_possibility,
+          label_smoothing, wandb_run, pass_acc=False):
+    artifact = wandb.Artifact('model_checkpoint', type='model')
+
     if augmentation_type not in ('simple', 'cutmix', 'mixup'):
         raise Exception(f"Bad augmentation_type: {augmentation_type}. Correct are: ('simple', 'cutmix', 'mixup')")
 
+    best_val_acc = None
     for epoch in range(n_epochs):
         print(f"Epoch {epoch}")
         print(f"lr: {optimizer.param_groups[0]['lr']}")
@@ -172,6 +175,7 @@ def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha
         # val_loss_log.append(val_loss)
         # val_acc_log.append(val_acc)
 
+        best_val_acc = max(best_val_acc, val_acc)
         print(f" train loss: {train_loss}, train acc: {train_acc}")
         print(f" val loss: {val_loss}, val acc: {val_acc}\n")
         wandb.log({"train_loss": train_loss, 'train_acc': train_acc, 'val_loss': val_loss, 'val_acc': val_acc})
@@ -182,8 +186,15 @@ def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha
             else:
                 scheduler.step()
 
-    # return train_loss_log, train_acc_log, val_loss_log, val_acc_log
-
+        if epoch % 1 == (1 - 1):
+            torch.save({'epoch': epoch,
+                        'model_state_dict': model.state_dict(),
+                        'optimizer_state_dict': optimizer.state_dict(),
+                        'loss': val_loss},
+                       'model_checkpoint.pth')
+            artifact.add_file('model_checkpoint.pth')
+            wandb_run.log_artifact(artifact)
+    return best_val_acc
 
 def predict_test(model, loader):
     res = []
