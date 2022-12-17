@@ -48,8 +48,8 @@ def get_my_data(path_to_train, path_to_test, path_to_labels, batch_size_train, b
 
     trainval_inds = np.arange(trainval_size)
     np.random.shuffle(trainval_inds)
-    train_inds = trainval_inds[:trainval_inds.shape[0] // 10 * 0.5]
-    val_inds = trainval_inds[trainval_inds.shape[0] // 10 * 0.5:]
+    train_inds = trainval_inds[:trainval_inds.shape[0] // 10 * 1]
+    val_inds = trainval_inds[trainval_inds.shape[0] // 10 * 1:]
     test_inds = np.arange(test_size)
 
     trainset = MyDataset(path_to_train, train_inds, path_to_labels, transform_trainval)
