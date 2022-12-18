@@ -1,6 +1,8 @@
 print("Started")
 import torch
 assert torch.cuda.is_available(), "CUDA NOT AVAILABLE"
+%load_ext autoreload
+%autoreload 2
 
 !pip install -q kaggle wandb optuna psycopg2-binary
 %env KAGGLE_USERNAME=skovpt

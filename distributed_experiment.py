@@ -25,6 +25,7 @@ from build_dataset import get_my_data
 
 
 def remote_experiment(trial):
+    !git -C dl_bhw1_utils pull
     torch.manual_seed(3407)
     np.random.seed(10)
 
