@@ -78,7 +78,7 @@ def train_epoch_cutmix(model, optimizer, train_loader, alpha, aug_possibility, l
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
     model.train()
-    time_buff_size = 10
+    time_buff_size = 200
     too_long_for_batch = 0.25
     time_buff = np.zeros(time_buff_size)
 
