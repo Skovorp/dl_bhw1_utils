@@ -150,7 +150,6 @@ def train_epoch_mixup(model, optimizer, train_loader, alpha, aug_possibility, la
 
 def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha, augmentation_type, aug_possibility,
           label_smoothing, wandb_run, pass_acc=False):
-    artifact = wandb.Artifact('model_checkpoint', type='model')
 
     if augmentation_type not in ('simple', 'cutmix', 'mixup'):
         raise Exception(f"Bad augmentation_type: {augmentation_type}. Correct are: ('simple', 'cutmix', 'mixup')")
@@ -192,7 +191,8 @@ def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha
                         'optimizer_state_dict': optimizer.state_dict(),
                         'loss': val_loss},
                        'model_checkpoint.pth')
-            artifact.add_file('model_checkpoint.pth')
+            artifact = wandb.Artifact(f'model_checkpoint_{wandb_run.name}', type='model')
+            artifact.add_file(f'model_checkpoint_{wandb_run.name}.pth')
             wandb_run.log_artifact(artifact)
     return best_val_acc
 
