@@ -1,0 +1,21 @@
+print("Started")
+!pip install -q kaggle wandb optuna psycopg2-binary
+%env KAGGLE_USERNAME=skovpt
+%env KAGGLE_KEY=7fbfae26921a81b87e1928e5f0039651
+%env WANDB_API_KEY 9ce4b10bf35b56281619a07601ec9c274604c9f6
+!wandb login
+!kaggle competitions download -c bhw-1-deep-learning
+!unzip -q ./bhw-1-deep-learning.zip
+print("Got data")
+!git clone https://github.com/Skovorp/dl_bhw1_utils.git # ЭТО МОЙ РЕПО, чтобы элегантно скамить кегломамонтов
+import sys
+sys.path.append("/kaggle/working/dl_bhw1_utils")
+
+import optuna
+from distributed_experiment import remote_experiment
+
+study = optuna.load_study(
+    study_name="amazing_comeback_real",
+    storage="postgresql://aaaa:12345678@postgresql-100628-0.cloudclusters.net:10006/optuna_1"
+)
+study.optimize(remote_experiment, n_trials=100)
