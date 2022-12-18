@@ -207,11 +207,11 @@ def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha
             artifact.add_file(f'/kaggle/working/model_checkpoint_{wandb_run.name}.pth')
             wandb_run.log_artifact(artifact)
 
-        if epoch == 5 and val_loss < 0.15:
-            print(f"Accuracy on 5th epoch was too low: {val_loss}")
+        if epoch == 5 and val_acc < 0.15:
+            print(f"Accuracy on 5th epoch was too low: {val_acc}")
             return best_val_acc
-        if epoch == 10 and val_loss < 0.30:
-            print(f"Accuracy on 10th epoch was too low: {val_loss}")
+        if epoch == 10 and val_acc < 0.30:
+            print(f"Accuracy on 10th epoch was too low: {val_acc}")
             return best_val_acc
     return best_val_acc
 
