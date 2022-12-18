@@ -79,7 +79,7 @@ def remote_experiment(trial):
         'scheduler': scheduler,
         'optimizer_params': optimizer.__dict__,
         'sheduler_params': scheduler.__dict__,
-        'epochs': 3,
+        'epochs': 30,
         'alpha': optuna_params['pick_alpha'],
         'augmentation_type': 'cutmix',
         'aug_possibility': 1,
@@ -95,7 +95,7 @@ def remote_experiment(trial):
         run_config['transform_set_train'], run_config['transform_set_test'])
 
     run = wandb.init(project="dl_big_hw1", entity="sposiboh", config=run_config, name=name)
-    val_acc = None
+    val_acc = 0
     try:
         val_acc = train(net, run_config['optimizer'], run_config['scheduler'], run_config['epochs'], train_loader, val_loader,
               run_config['alpha'], run_config['augmentation_type'], run_config['aug_possibility'],
@@ -103,7 +103,7 @@ def remote_experiment(trial):
     except:
         print(traceback.format_exc())
         print("FAILED TRAINING")
-        val_acc = -1
+        val_acc = 0
     finally:
         wandb.finish()
     return val_acc
