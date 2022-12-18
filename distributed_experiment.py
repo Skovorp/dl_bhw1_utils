@@ -56,7 +56,7 @@ def new_remote_experiment(trial):
             raise Exception('Can\'t add dropout')
 
     optimizer = optim.AdamW(net.parameters(), lr=0.002, weight_decay=optuna_params['pick_wd'])
-    scheduler = optim.lr_scheduler.CosineAnnealingLR(net.parameters(), T_max=10, eta_min=0.0001,)
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=10, eta_min=0.0001,)
 
     run_config = {
         'model_name': model_name,
