@@ -14,6 +14,7 @@ from torch import optim
 import os
 import pandas as pd
 from datetime import datetime
+import traceback
 
 from torch import optim, nn
 import torch
@@ -100,6 +101,7 @@ def remote_experiment(trial):
               run_config['alpha'], run_config['augmentation_type'], run_config['aug_possibility'],
               run_config['label_smoothing'], run)
     except:
+        print(traceback.format_exc())
         print("FAILED TRAINING")
         val_acc = -1
     finally:
