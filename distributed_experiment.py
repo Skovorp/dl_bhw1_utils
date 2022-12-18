@@ -79,7 +79,7 @@ def remote_experiment(trial):
         'scheduler': scheduler,
         'optimizer_params': optimizer.__dict__,
         'sheduler_params': scheduler.__dict__,
-        'epochs': 30,
+        'epochs': 3,
         'alpha': optuna_params['pick_alpha'],
         'augmentation_type': 'cutmix',
         'aug_possibility': 1,
