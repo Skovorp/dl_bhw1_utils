@@ -155,7 +155,7 @@ def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha
     if augmentation_type not in ('simple', 'cutmix', 'mixup'):
         raise Exception(f"Bad augmentation_type: {augmentation_type}. Correct are: ('simple', 'cutmix', 'mixup')")
 
-    best_val_acc = None
+    best_val_acc = 0
     for epoch in range(n_epochs):
         print(f"Epoch {epoch}")
         print(f"lr: {optimizer.param_groups[0]['lr']}")
