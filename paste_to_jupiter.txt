@@ -11,6 +11,8 @@ print("Got data")
 import sys
 sys.path.append("/kaggle/working/dl_bhw1_utils")
 
+% env ACCOUNT_EMAIL = peter.skovorodnikov@gmail.com
+
 import optuna
 from distributed_experiment import remote_experiment
 

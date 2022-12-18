@@ -85,6 +85,7 @@ def remote_experiment(trial):
         'aug_possibility': 1,
         'label_smoothing': optuna_params['pick_label_smoothing'],
         'dropout': dropout,
+        'kaggle_account': str(os.getenv('ACCOUNT_EMAIL'))
     }
 
     train_loader, val_loader, test_loader = get_my_data(
