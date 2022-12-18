@@ -78,8 +78,8 @@ def train_epoch_cutmix(model, optimizer, train_loader, alpha, aug_possibility, l
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
     model.train()
-    time_buff_size = 200
-    too_long_for_batch = 0.75
+    time_buff_size = 500
+    too_long_for_batch = 5
     time_buff = np.zeros(time_buff_size)
 
     for i, (data, target) in tqdm(enumerate(train_loader)):
@@ -116,7 +116,7 @@ def train_epoch_cutmix(model, optimizer, train_loader, alpha, aug_possibility, l
         end_time = time.time()
         time_buff[i % time_buff_size] = end_time - start_time
         if np.mean(time_buff) > too_long_for_batch:
-            raise Exception(f"Batch took to long. Avg of 5: {np.mean(time_buff)}")
+            raise Exception(f"Batch took to long. Avg of {time_buff_size}: {np.mean(time_buff)}")
 
     return loss_sum / len(train_loader.dataset), acc_sum / len(train_loader.dataset)
 
