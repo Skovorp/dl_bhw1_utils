@@ -1,4 +1,7 @@
 print("Started")
+import torch
+assert torch.cuda.is_available(), "CUDA NOT AVAILABLE"
+
 !pip install -q kaggle wandb optuna psycopg2-binary
 %env KAGGLE_USERNAME=skovpt
 %env KAGGLE_KEY=7fbfae26921a81b87e1928e5f0039651
@@ -17,7 +20,7 @@ import optuna
 from distributed_experiment import remote_experiment
 
 study = optuna.load_study(
-    study_name="sleep_study",
+    study_name="sleep_study_2",
     storage="postgresql://aaaa:12345678@postgresql-100628-0.cloudclusters.net:10006/optuna_1"
 )
 study.optimize(remote_experiment)
