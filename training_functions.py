@@ -190,9 +190,9 @@ def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha
                         'model_state_dict': model.state_dict(),
                         'optimizer_state_dict': optimizer.state_dict(),
                         'loss': val_loss},
-                       'model_checkpoint.pth')
+                       f'/kaggle/working/model_checkpoint_{wandb_run.name}.pth')
             artifact = wandb.Artifact(f'model_checkpoint_{wandb_run.name}', type='model')
-            artifact.add_file(f'model_checkpoint_{wandb_run.name}.pth')
+            artifact.add_file(f'/kaggle/working/model_checkpoint_{wandb_run.name}.pth')
             wandb_run.log_artifact(artifact)
     return best_val_acc
 
