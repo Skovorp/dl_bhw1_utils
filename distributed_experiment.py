@@ -28,7 +28,7 @@ def remote_experiment(trial):
     torch.manual_seed(3407)
     np.random.seed(10)
 
-    name = f'remote_experiment_{str(datetime.now())[11:16]}'
+    name = f'remote_experiment_{datetime.now().strftime("%H_%M")}'
     model_name = 'resnet18'
 
     optuna_params = {
