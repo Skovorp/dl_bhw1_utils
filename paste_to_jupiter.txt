@@ -11,7 +11,7 @@ print("Got data")
 import sys
 sys.path.append("/kaggle/working/dl_bhw1_utils")
 
-% env ACCOUNT_EMAIL = peter.skovorodnikov@gmail.com
+%env ACCOUNT_EMAIL = peter.skovorodnikov@gmail.com
 
 import optuna
 from distributed_experiment import remote_experiment
@@ -20,4 +20,4 @@ study = optuna.load_study(
     study_name="sleep_study",
     storage="postgresql://aaaa:12345678@postgresql-100628-0.cloudclusters.net:10006/optuna_1"
 )
-study.optimize(remote_experiment, n_trials=100)
+study.optimize(remote_experiment)

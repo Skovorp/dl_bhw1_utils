@@ -79,7 +79,7 @@ def train_epoch_cutmix(model, optimizer, train_loader, alpha, aug_possibility, l
 
     model.train()
     time_buff_size = 200
-    too_long_for_batch = 0.25
+    too_long_for_batch = 0.75
     time_buff = np.zeros(time_buff_size)
 
     for i, (data, target) in tqdm(enumerate(train_loader)):
