@@ -26,7 +26,7 @@ from build_dataset import get_my_data
 
 
 def remote_experiment(trial):
-    subprocess.run('git -C dl_bhw1_utils pull')
+    subprocess.run('git -C dl_bhw1_utils pull', shell=True)
     torch.manual_seed(3407)
     np.random.seed(10)
 
