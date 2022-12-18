@@ -197,7 +197,7 @@ def train(model, optimizer, scheduler, n_epochs, train_loader, val_loader, alpha
             else:
                 scheduler.step()
 
-        if epoch % 15 == (15 - 1):
+        if epoch % 10 == (10 - 1):
             torch.save({'epoch': epoch,
                         'model_state_dict': model.state_dict(),
                         'optimizer_state_dict': optimizer.state_dict(),
