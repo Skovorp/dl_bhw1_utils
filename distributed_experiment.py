@@ -33,7 +33,7 @@ def remote_experiment(trial):
 
     optuna_params = {
         'pick_dropout': trial.suggest_float('dropout', 0, 1),
-        'pick_wd': trial.suggest_float('wd', 0.5, 0.02),
+        'pick_wd': trial.suggest_float('wd', 0.02, 0.5),
         'pick_alpha': trial.suggest_float('alpha', 0.05, 3, log=True),
         'pick_gamma': trial.suggest_float('gamma', 0.6, 0.95),
         'pick_label_smoothing': trial.suggest_float('label_smoothing', 0, 1),
