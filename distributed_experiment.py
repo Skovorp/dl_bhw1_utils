@@ -25,7 +25,7 @@ from training_functions import train, predict_test, generate_csv
 from build_dataset import get_my_data
 
 
-def remote_experiment(trial):
+def new_remote_experiment(trial):
     subprocess.run('git -C dl_bhw1_utils pull', shell=True)
     torch.manual_seed(3407)
     np.random.seed(10)
@@ -34,11 +34,10 @@ def remote_experiment(trial):
     model_name = 'resnet18'
 
     optuna_params = {
-        'pick_dropout': trial.suggest_float('dropout', 0, 1),
-        'pick_wd': trial.suggest_float('wd', 0.02, 0.5),
-        'pick_alpha': trial.suggest_float('alpha', 0.05, 3, log=True),
-        'pick_gamma': trial.suggest_float('gamma', 0.6, 0.95),
-        'pick_label_smoothing': trial.suggest_float('label_smoothing', 0, 1),
+        'pick_dropout': trial.suggest_discrete_uniform('dropout', 0.2, 0.4, 0.05),
+        'pick_wd': 0.1,
+        'pick_alpha': 0.2,
+        'pick_label_smoothing': 0.5,
     }
 
     dropout = optuna_params['pick_dropout']
@@ -57,7 +56,7 @@ def remote_experiment(trial):
             raise Exception('Can\'t add dropout')
 
     optimizer = optim.AdamW(net.parameters(), lr=0.002, weight_decay=optuna_params['pick_wd'])
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=optuna_params['pick_gamma'])
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(net.parameters(), T_max=10, eta_min=0.0001,)
 
     run_config = {
         'model_name': model_name,
@@ -81,7 +80,7 @@ def remote_experiment(trial):
         'scheduler': scheduler,
         'optimizer_params': optimizer.__dict__,
         'sheduler_params': scheduler.__dict__,
-        'epochs': 20,
+        'epochs': 50,
         'alpha': optuna_params['pick_alpha'],
         'augmentation_type': 'cutmix',
         'aug_possibility': 1,
