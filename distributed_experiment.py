@@ -15,6 +15,7 @@ import os
 import pandas as pd
 from datetime import datetime
 import traceback
+import subprocess
 
 from torch import optim, nn
 import torch
@@ -25,7 +26,7 @@ from build_dataset import get_my_data
 
 
 def remote_experiment(trial):
-    !git -C dl_bhw1_utils pull
+    subprocess.run('git -C dl_bhw1_utils pull')
     torch.manual_seed(3407)
     np.random.seed(10)
 
